@@ -1,3 +1,18 @@
 enonce.md
 CLAUDE.md
 .claude
+
+
+
+# Fichiers générés
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# MLflow — base de données et artefacts générés automatiquement
+*.db
+notebooks/mlruns/
+
+# Données — ne jamais versionner
+data/*.csv
+data/*.zip
