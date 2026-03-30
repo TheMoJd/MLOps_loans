@@ -49,8 +49,8 @@ demo = gr.Interface(
         "et la decision de credit (ACCORDE / REFUSE)."
     ),
     examples=[[client_ids[0]], [client_ids[1]], [client_ids[2]]],
-    allow_flagging="never",
+    flagging_mode="never",
 )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=PORT)
+    demo.launch(server_name="0.0.0.0", server_port=PORT, share=True)
