@@ -1,19 +1,30 @@
 enonce.md
+enonce2.md
 CLAUDE.md
 .claude
-captures/
 
-
-
-# Fichiers générés
+# Fichiers generes
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+.pytest_cache/
+venv/
 
-# MLflow — base de données et artefacts générés automatiquement
+# MLflow — base de donnees et artefacts generes automatiquement
 *.db
 notebooks/mlruns/
 
-# Données — ne jamais versionner
+# Donnees — ne jamais versionner (sauf echantillons)
 data/*.csv
+!data/sample_clients.csv
+!data/reference_data.csv
 data/*.zip
+
+# Logs de production (generes par l'API)
+logs/
+
+# Rapports Evidently (generes par le notebook 07)
+reports/
+
+# Captures d'ecran
+captures/
