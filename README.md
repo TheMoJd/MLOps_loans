@@ -1,3 +1,15 @@
+---
+title: Scoring Credit
+emoji: 🏦
+colorFrom: blue
+colorTo: green
+sdk: gradio
+sdk_version: "6.10.0"
+python_version: "3.11"
+app_file: app/app.py
+pinned: false
+---
+
 # Scoring Credit - Pret a Depenser
 
 Modele de scoring credit predisant la probabilite de defaut de remboursement d'un client.
