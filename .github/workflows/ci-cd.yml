@@ -45,6 +45,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install Git LFS
+        run: git lfs install
+
+      - name: Track binary files with LFS
+        run: |
+          git lfs track "*.pkl" "*.onnx" "*.PNG" "*.png"
+          git add .gitattributes
+          git -c user.name="CI" -c user.email="ci@deploy" commit -m "chore: configure git lfs" --allow-empty || true
+
       - name: Deploy to Hugging Face Spaces
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
