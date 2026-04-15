@@ -89,3 +89,100 @@ class TestFeatureConsistency:
     def test_no_target_in_features(self):
         """TARGET ne doit pas etre dans les features."""
         assert "TARGET" not in FEATURE_NAMES
+
+
+class TestBusinessRangeValues:
+    """Tests sur les valeurs hors plages metier (revenu nul, age negatif, etc.).
+
+    Le modele doit rester robuste : retourner une probabilite valide [0, 1]
+    meme si une feature contient une valeur absurde d'un point de vue metier.
+    Cela permet de detecter les regressions de robustesse.
+    """
+
+    def test_zero_income(self, model, sample_features):
+        """Revenu total = 0 (impossible metier) : proba doit rester dans [0, 1]."""
+        features = sample_features.copy()
+        features.loc[:, "AMT_INCOME_TOTAL"] = 0
+        proba = model.predict_proba(features)[:, 1]
+        assert 0.0 <= proba[0] <= 1.0
+
+    def test_negative_income(self, model, sample_features):
+        """Revenu negatif (impossible metier) : pas de crash."""
+        features = sample_features.copy()
+        features.loc[:, "AMT_INCOME_TOTAL"] = -50000
+        proba = model.predict_proba(features)[:, 1]
+        assert 0.0 <= proba[0] <= 1.0
+
+    def test_zero_credit_amount(self, model, sample_features):
+        """Montant de credit demande = 0 : pas de crash."""
+        features = sample_features.copy()
+        features.loc[:, "AMT_CREDIT"] = 0
+        proba = model.predict_proba(features)[:, 1]
+        assert 0.0 <= proba[0] <= 1.0
+
+    def test_positive_days_birth_invalid_age(self, model, sample_features):
+        """DAYS_BIRTH positif (= ne dans le futur, impossible metier).
+
+        Dans ce dataset, DAYS_BIRTH est toujours negatif (jours avant la demande).
+        Un age negatif revient a mettre DAYS_BIRTH > 0.
+        """
+        features = sample_features.copy()
+        features.loc[:, "DAYS_BIRTH"] = 5  # "ne il y a -5 jours"
+        proba = model.predict_proba(features)[:, 1]
+        assert 0.0 <= proba[0] <= 1.0
+
+    def test_negative_children_count(self, model, sample_features):
+        """Nombre d'enfants negatif (impossible metier) : pas de crash."""
+        features = sample_features.copy()
+        features.loc[:, "CNT_CHILDREN"] = -3
+        proba = model.predict_proba(features)[:, 1]
+        assert 0.0 <= proba[0] <= 1.0
+
+    def test_unrealistic_children_count(self, model, sample_features):
+        """Nombre d'enfants absurde (100) : pas de crash."""
+        features = sample_features.copy()
+        features.loc[:, "CNT_CHILDREN"] = 100
+        proba = model.predict_proba(features)[:, 1]
+        assert 0.0 <= proba[0] <= 1.0
+
+    def test_all_zero_features(self, model, sample_features):
+        """Toutes les features numeriques a 0 : pas de crash."""
+        features = sample_features.copy()
+        numeric_cols = features.select_dtypes(include=["number"]).columns
+        for col in numeric_cols:
+            features[col] = 0
+        proba = model.predict_proba(features)[:, 1]
+        assert 0.0 <= proba[0] <= 1.0
+
+
+class TestInputShapeValidation:
+    """Tests sur la validation de la forme des donnees d'entree."""
+
+    def test_missing_column_raises(self, model, sample_features):
+        """Une colonne manquante doit lever une erreur du modele."""
+        import pandas as pd
+
+        features_missing = sample_features.drop(columns=["AMT_INCOME_TOTAL"])
+        with pytest.raises((ValueError, KeyError, Exception)):
+            model.predict_proba(features_missing)
+
+    def test_wrong_feature_count_raises(self, model, sample_features):
+        """Un nombre incorrect de colonnes doit lever une erreur."""
+        features_truncated = sample_features.iloc[:, :10]
+        with pytest.raises((ValueError, Exception)):
+            model.predict_proba(features_truncated)
+
+    def test_empty_dataframe_raises(self, model):
+        """Un DataFrame vide doit lever une erreur."""
+        import pandas as pd
+
+        empty_df = pd.DataFrame(columns=FEATURE_NAMES)
+        with pytest.raises((ValueError, Exception)):
+            model.predict_proba(empty_df)
+
+    def test_string_in_numeric_column_raises(self, model, sample_features):
+        """Du texte dans une colonne numerique doit lever une erreur."""
+        features = sample_features.copy().astype(object)
+        features.loc[:, "AMT_INCOME_TOTAL"] = "pas un nombre"
+        with pytest.raises((ValueError, TypeError, Exception)):
+            model.predict_proba(features)

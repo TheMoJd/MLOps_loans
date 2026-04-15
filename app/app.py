@@ -3,6 +3,13 @@ Scoring Credit - Pret a Depenser
 API Gradio pour predire la probabilite de defaut d'un client.
 """
 
+import os
+import sys
+
+# Permettre l'execution en tant que script (ex: Hugging Face Spaces)
+# en plus de l'execution en tant que module (`python -m app.app`).
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import gradio as gr
 from app.model import predict, get_client_ids
 from app.config import THRESHOLD, PORT

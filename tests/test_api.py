@@ -60,3 +60,37 @@ class TestGetClientIds:
         """Les IDs sont des entiers."""
         ids = get_client_ids()
         assert all(isinstance(i, int) for i in ids)
+
+
+class TestInvalidInputTypes:
+    """Tests sur le rejet des types incorrects en entree de l'API."""
+
+    def test_predict_string_client_id_raises(self):
+        """Un client_id de type str (ex: 'abc') doit lever une ValueError."""
+        with pytest.raises(ValueError, match="non trouve"):
+            predict("abc")
+
+    def test_predict_none_client_id_raises(self):
+        """Un client_id None doit lever une ValueError."""
+        with pytest.raises(ValueError, match="non trouve"):
+            predict(None)
+
+    def test_predict_negative_client_id_raises(self):
+        """Un client_id negatif (impossible metier) doit lever une ValueError."""
+        with pytest.raises(ValueError, match="non trouve"):
+            predict(-1)
+
+    def test_predict_zero_client_id_raises(self):
+        """Un client_id egal a 0 (non reference) doit lever une ValueError."""
+        with pytest.raises(ValueError, match="non trouve"):
+            predict(0)
+
+    def test_predict_float_client_id_raises(self):
+        """Un client_id en float non entier doit lever une ValueError."""
+        with pytest.raises(ValueError, match="non trouve"):
+            predict(12345.67)
+
+    def test_predict_list_client_id_raises(self):
+        """Un client_id de type list doit lever une erreur (pas un scalaire hashable)."""
+        with pytest.raises((ValueError, TypeError)):
+            predict([123456])
