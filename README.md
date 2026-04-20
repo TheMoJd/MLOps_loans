@@ -110,6 +110,34 @@ docker run -p 7860:7860 scoring-credit
 USE_ONNX=true python -m app.app
 ```
 
+## Reproduire les notebooks 01 → 06 (modeling)
+
+Les notebooks d'exploration, preprocessing et entrainement utilisent le dataset
+**Home Credit Default Risk** de Kaggle. Les fichiers bruts (~2.5 GB) ne sont
+volontairement **pas** versionnes dans ce depot :
+
+- Taille incompatible avec GitHub (limite 100 MB/fichier)
+- Licence Kaggle : republication du dataset non autorisee
+
+Pour rejouer ces notebooks :
+
+1. Telecharger les donnees depuis la [competition Kaggle](https://www.kaggle.com/c/home-credit-default-risk/data)
+2. Extraire les CSV dans `data/raw/` :
+   ```
+   data/raw/application_train.csv
+   data/raw/bureau.csv
+   data/raw/bureau_balance.csv
+   data/raw/previous_application.csv
+   data/raw/installments_payments.csv
+   data/raw/credit_card_balance.csv
+   data/raw/POS_CASH_balance.csv
+   ```
+3. Lancer les notebooks dans l'ordre `01 -> 02 -> 03 -> ...`
+
+Pour la **demo et les tests**, seuls `data/sample_clients.csv` (deja present)
+et `data/reference_data.csv` (deja present) sont requis. Les notebooks 07 et 08
+tournent sans telechargement supplementaire.
+
 ## Lancer les tests
 
 ```bash
