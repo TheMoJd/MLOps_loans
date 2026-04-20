@@ -1,8 +1,14 @@
 enonce.md
+enonce1.md
 enonce2.md
 Enonce.md
 CLAUDE.md
 .claude
+
+# Fichiers personnels lies a la soutenance
+linkedin_post*.md
+soutenance_*.pptx
+*.backup
 
 # Fichiers generes
 __pycache__/

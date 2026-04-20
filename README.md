@@ -12,6 +12,12 @@ pinned: false
 
 # Scoring Credit - Pret a Depenser
 
+[![CI/CD](https://github.com/TheMoJd/MLOps_loans/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/TheMoJd/MLOps_loans/actions/workflows/ci-cd.yml)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Space-blue)](https://huggingface.co/spaces/TheMoJd/scoring-credit)
+[![Tests](https://img.shields.io/badge/tests-39%20passing-brightgreen.svg)](./tests)
+
 Modele de scoring credit predisant la probabilite de defaut de remboursement d'un client.
 Projet MLOps complet : du developpement du modele au deploiement en production.
 
@@ -19,7 +25,7 @@ Projet MLOps complet : du developpement du modele au deploiement en production.
 
 L'API est deployee en continu sur **Hugging Face Spaces** via le pipeline CI/CD :
 
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Space-blue)](https://huggingface.co/spaces/TheMoJd/scoring-credit)
+> **[huggingface.co/spaces/TheMoJd/scoring-credit](https://huggingface.co/spaces/TheMoJd/scoring-credit)**
 
 Chaque push sur `main` declenche automatiquement les tests, le build Docker, puis le redeploiement du Space.
 
@@ -192,3 +198,11 @@ Le pipeline GitHub Actions (`.github/workflows/ci-cd.yml`) :
 - **MLOps** : MLflow (tracking, registry)
 - **CI/CD** : GitHub Actions
 - **Conteneurisation** : Docker
+
+## License
+
+Distribue sous licence MIT. Voir [LICENSE](./LICENSE) pour plus de details.
+
+## Auteur
+
+**Moetez JAOUED**  — Projet MLOps OpenClassrooms — Avril 2026
