@@ -1,0 +1,16 @@
+# Dependances supplementaires pour le developpement et les notebooks.
+# Volontairement separees de requirements.txt pour garder l'image Docker legere.
+#
+# Installation : uv pip install -r requirements-dev.txt
+# (ou : pip install -r requirements-dev.txt si pip est dispo)
+
+-r requirements.txt
+
+# Notebooks
+jupyter>=1.0
+ipykernel>=6.0
+matplotlib>=3.7
+seaborn>=0.12
+
+# Profiling / optimisation (notebook 08)
+# (cProfile est dans la stdlib, rien a installer)

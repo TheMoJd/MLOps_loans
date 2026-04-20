@@ -88,6 +88,9 @@ python -m app.app
 
 L'interface est accessible sur http://localhost:7860
 
+> Pour executer les notebooks (`notebooks/`), installer en plus les deps dev :
+> `pip install -r requirements-dev.txt` (inclut `jupyter`, `matplotlib`, `seaborn`).
+
 ### Avec Docker
 
 ```bash

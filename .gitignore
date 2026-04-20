@@ -29,3 +29,6 @@ reports/
 
 # Captures d'ecran
 captures/
+
+# Livrables zippes pour OpenClassrooms
+scoring_credit_*.zip
